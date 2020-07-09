@@ -1,5 +1,6 @@
-import {BadRequestException, Controller, Delete, Get, Header, HttpCode, Param, Post} from "@nestjs/common";
+import {BadRequestException, Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Query} from "@nestjs/common";
 
+//Para levantar el servidor npm run start
 
 // URL hasta ahora esta: http://localhost:3001/juegos-http
 @Controller('/juegos-http') //segmento ed la URL
@@ -41,5 +42,39 @@ export class HttpJuegoController {
             throw new BadRequestException('No son numeros');
         }
     }
+
+    //URL de este GET: http://localhost:3001/juegos-http/parametros-consulta?nombre=Adrian&apellido=Eguez
+    /*@Get('parametros-consulta')
+    parametrosConsulta(
+        @Query() parametrosDeConsulta
+    ){
+        if (parametrosDeConsulta !== null){
+            console.log('parametros de consulta', parametrosDeConsulta);
+        }
+        console.log('=)');
+        return '=)';
+    }*/
+    @Get('parametros-consulta')
+    parametrosConsulta(
+        @Query() parametrosDeConsulta
+    ){
+        const tieneNombreyApellido = parametrosDeConsulta.nombre && parametrosDeConsulta.apellido;
+        console.log('parametros de consulta', parametrosDeConsulta);
+
+        if (tieneNombreyApellido){  //en JS solo ponemos el parametro para saber si es undefined o no en un if
+            return parametrosDeConsulta.nombre + ' ' + parametrosDeConsulta.apellido;
+        }else{
+            return '=)';
+        }
+    }
+
+    @Post('parametros-cuerpo')
+    parametrosCuerpo(
+        @Body() parametrosDeCuerpo
+    ){
+        console.log('Parametros de cuerpo', parametrosDeCuerpo);
+        return'Registro creado';
+    }
+
 }
 
