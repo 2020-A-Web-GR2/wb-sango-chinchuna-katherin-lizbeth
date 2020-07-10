@@ -1,4 +1,18 @@
-import {BadRequestException, Body, Controller, Delete, Get, Header, HttpCode, Param, Post, Query} from "@nestjs/common";
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    Header,
+    HttpCode,
+    Param,
+    Post,
+    Query,
+    Req, Res
+} from "@nestjs/common";
+import {MascotaCreateDto} from "./dto/mascota.create-dto";
+import {validate, ValidationError} from "class-validator";
 
 //Para levantar el servidor npm run start
 
@@ -68,13 +82,65 @@ export class HttpJuegoController {
         }
     }
 
+    //Validaciones
     @Post('parametros-cuerpo')
-    parametrosCuerpo(
+    @HttpCode(200)
+    async parametrosCuerpo(
         @Body() parametrosDeCuerpo
     ){
-        console.log('Parametros de cuerpo', parametrosDeCuerpo);
-        return'Registro creado';
+        //promesa
+        const mascotaValida = new MascotaCreateDto();
+        mascotaValida.nombre = parametrosDeCuerpo.nombre;
+        mascotaValida.edad = parametrosDeCuerpo.edad;
+        mascotaValida.casada = parametrosDeCuerpo.casada;
+        mascotaValida.ligada = parametrosDeCuerpo.ligada;
+        mascotaValida.peso = parametrosDeCuerpo.peso;
+
+        //Aqui validamos las propiedades
+        try {
+
+            const  errores: ValidationError[] = await validate(mascotaValida);
+            if (errores.length > 0){
+                console.log('Errores',errores);
+                throw new BadRequestException('Error validando');
+            }else {
+                const mensajeCorrecto = {
+                    mensaje: 'Se creo correctamente'
+                };
+                return mensajeCorrecto;
+            }
+
+        }catch (e) {
+            console.log('Error', e);
+            throw new BadRequestException('Error validando');
+        }
+
     }
+
+    //Cookies
+    //1. Guardar una cookie insegura
+    @Get('guardarCookieInsegura')
+    guardarCookieInsegura(
+        @Query() parametrosConsulta,
+        @Req() req, //request - PETICION
+        @Res() res //response - RESPUESTA
+    ){
+        res.cookie(
+            'galletaInsegura', //nombre
+            'Tengo hambre', //valor
+        );
+
+        const mensaje = {
+            mensaje:'OK'
+        }
+        //No se puede usar un return cuando se usa un @RES, metodo del express JS
+        res.send(mensaje )
+    }
+
+
+
+    //2. Guardar una cookie segura
+    //3. Mostrar cookies
 
 }
 
