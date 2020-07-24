@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common';
+import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
 
 @Controller('usuario')
 export class UsuarioController {
@@ -18,11 +18,12 @@ export class UsuarioController {
     ]
     public idActual = 3;
 
+    //Mostrar todos
     @Get()
     mostrarTodos() {
         return this.arregloUsuarios
     }
-
+    //Crear uno
     @Post()
     crearUno(
         @Body() parametrosCuerpo
@@ -35,17 +36,44 @@ export class UsuarioController {
         this.idActual = this.idActual + 1;
         return nuevoUsuario;
     }
-
+    //Ver uno
     @Get(':id')
     verUno(
         @Param() parametrosRuta
     ){
         const indice = this.arregloUsuarios.findIndex(
             (usuario) => usuario.id === Number(parametrosRuta.id)
-        )
+        );
         return this.arregloUsuarios[indice];
 
     }
+    //Editar Uno
+    @Put(':id')
+    editarUno(
+        @Param() parametrosRuta,
+        @Body() parametrosCuerpo
+    ){
+        const indice = this.arregloUsuarios.findIndex(
+            (usuario) => usuario.id === Number(parametrosRuta.id)
+        );
+        this.arregloUsuarios[indice].nombre = parametrosCuerpo.nombre;
+        return this.arregloUsuarios[indice];
+    }
+    //Eliminar uno
+    @Delete(':id')
+    eliminarUno(
+        @Param() parametrosRuta
+    ){
+        const indice = this.arregloUsuarios.findIndex(
+            (usuario) => usuario.id === Number(parametrosRuta.id)
+        );
+        this.arregloUsuarios.splice(indice,1);
+        return this.arregloUsuarios[indice];
+    }
+
+
+
+
 
     // XML <usuario><nombre>ADRIAN</nombre></usuario>
     // JSON {"nombre":"ADRIAN"}
