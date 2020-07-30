@@ -12,7 +12,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
       HttpJuegoModule,
       Deber01Module,
       UsuarioModule,
-      TypeOrmModule
+      /*TypeOrmModule
           .forRoot({
           name: 'default', //nombre conexion
           type: 'mysql',  //mysql postgres
@@ -24,7 +24,7 @@ import {TypeOrmModule} from "@nestjs/typeorm";
           entities: [], //TODAS LAS ENTIDADES
           synchronize: true, //Actualiza el esquema de la base de datos
           dropSchema: false, //Elimina Datos y el Esquema de la base de datos
-      }),
+      }),*/
   ],
   controllers: [
       //Controladores APP MODULE

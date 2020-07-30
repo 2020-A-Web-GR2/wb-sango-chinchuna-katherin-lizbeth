@@ -12,7 +12,7 @@ import {UsuarioEntity} from "./usuario.entity";
         TypeOrmModule
             .forFeature(
                 [
-                    UsuarioEntity
+                    //UsuarioEntity
                 ],
                 'default' //Nombre cadena de conexion
             )
