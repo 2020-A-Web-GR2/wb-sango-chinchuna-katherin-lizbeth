@@ -176,11 +176,11 @@ export class HttpJuegoController {
     public guardarCookieFirmada(
         @Res() res
     ) {
-        res.cookie('firmada', 'poliburguer', {signed: true});
-        res.cookie('firmada1', 'poliburguer1', {signed: true});
+        res.cookie('firmada', 'poliburguer', { signed : true });
+        /*res.cookie('firmada1', 'poliburguer1', {signed: true});
         res.cookie('firmada2', 'poliburguer2', {signed: true});
         res.cookie('firmada3', 'poliburguer3', {signed: true});
-        res.cookie('firmada4', 'poliburguer4', {signed: true});
+        res.cookie('firmada4', 'poliburguer4', {signed: true});*/
         const mensaje = {
             mensaje: 'ok'
         };
