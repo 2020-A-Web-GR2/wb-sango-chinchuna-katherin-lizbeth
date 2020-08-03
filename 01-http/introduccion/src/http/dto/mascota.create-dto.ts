@@ -1,6 +1,7 @@
+//https://github.com/typestack/class-validator#samples
+
 import {
     IsAlpha, IsBoolean,
-    IsEmpty,
     IsInt,
     IsNotEmpty, IsNumber,
     IsOptional,

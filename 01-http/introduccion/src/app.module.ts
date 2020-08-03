@@ -5,6 +5,7 @@ import {HttpJuegoModule} from "./http/http-juego.module";
 import {UsuarioModule} from "./usuario/usuario.module";
 import {Deber01Module} from "./deber01/deber01.module";
 import {TypeOrmModule} from "@nestjs/typeorm";
+import {UsuarioEntity} from "./usuario/usuario.entity";
 
 @Module({
   imports: [
@@ -15,13 +16,15 @@ import {TypeOrmModule} from "@nestjs/typeorm";
       TypeOrmModule
           .forRoot({
           name: 'default', //nombre conexion
-          type: 'mysql',  //mysql postgres
+          type: 'mysql',  //mysql o postgres
           host: 'localhost', //ip
           port: 3306, //puerto
           username: 'root', //usuario
-          password: 'root', //password
+          password: '4321', //password
           database: 'test', //base de datos
-          entities: [], //TODAS LAS ENTIDADES
+          entities: [
+              UsuarioEntity
+          ], //TODAS LAS ENTIDADES
           synchronize: true, //Actualiza el esquema de la base de datos
           dropSchema: false, //Elimina Datos y el Esquema de la base de datos
       }),
