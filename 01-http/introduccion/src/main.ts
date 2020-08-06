@@ -4,7 +4,7 @@ const cookieParser = require('cookie-parser');  // Importar cosas en JS
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  //nmp run start:dev
+  //npm run start:dev
   /*
   * AQUI CONFIGURACION
   * ANTES DEL APP.LISTE()

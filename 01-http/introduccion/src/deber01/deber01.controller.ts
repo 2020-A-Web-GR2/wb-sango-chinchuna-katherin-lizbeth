@@ -226,7 +226,7 @@ export class Deber01Controller {
     RUTA (n1)
     HEADERS, RUTA, QUERY, BODY (n2)*/
 
-    //http://localhost:3001/deber01/division
+    //http://localhost:3001/deber01/division/5
     @Post('division/:n1/')
     @HttpCode(201)
     async division(
@@ -348,16 +348,4 @@ export class Deber01Controller {
         }
     }
 
-    // *************** Mostrar cookies *****************
-
-    @Get('mostrarCookies')
-    mostrarCookies(
-        @Req() req
-    ) {
-        const mensaje = {
-            sinFirmar: req.cookies,
-            firmadas: req.signedCookies,
-        };
-        return mensaje;
-    }
 }
