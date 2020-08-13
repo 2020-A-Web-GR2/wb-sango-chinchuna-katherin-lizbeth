@@ -8,10 +8,10 @@ import {Column, Entity, Index, PrimaryGeneratedColumn} from "typeorm";
 ])
 
 //indice compuesto, indices que no permiten que se tenga dos propiedades con valores iguales
-@Index(
+/*@Index(
     ['nombre', 'apellido', 'cedula'],
     {unique:true}
-)
+)*/
 
 @Entity('db_usuario') //nombre tabla
 export class UsuarioEntity{

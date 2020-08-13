@@ -1,4 +1,15 @@
-import {Body, Controller, Delete, Get, Param, Post, Put} from '@nestjs/common';
+import {
+    BadRequestException,
+    Body,
+    Controller,
+    Delete,
+    Get,
+    InternalServerErrorException, NotFoundException,
+    Param,
+    Post,
+    Put
+} from '@nestjs/common';
+import {UsuarioService} from "./usuario.service";
 
 @Controller('usuario')
 export class UsuarioController {
@@ -18,35 +29,71 @@ export class UsuarioController {
     ]
     public idActual = 3;
 
-    //Mostrar todos
-    @Get()
-    mostrarTodos() {
-        return this.arregloUsuarios
-    }
-    //Crear uno
-    @Post()
-    crearUno(
-        @Body() parametrosCuerpo
+    constructor(
+        private _usuarioService: UsuarioService
     ) {
-        const nuevoUsuario = {
-            id: this.idActual + 1,
-            nombre: parametrosCuerpo.nombre
-        };
-        this.arregloUsuarios.push(nuevoUsuario);
-        this.idActual = this.idActual + 1;
-        return nuevoUsuario;
-    }
-    //Ver uno
-    @Get(':id')
-    verUno(
-        @Param() parametrosRuta
-    ){
-        const indice = this.arregloUsuarios.findIndex(
-            (usuario) => usuario.id === Number(parametrosRuta.id)
-        );
-        return this.arregloUsuarios[indice];
 
     }
+
+    // ************ Metodos CRUD ************
+    //Mostrar todos
+    @Get()
+    async mostrarTodos() {
+        try {
+            const respuesta = await this._usuarioService.buscarTodos();
+            return respuesta;
+        }catch (e) {
+            console.error(e);
+            throw new InternalServerErrorException({
+                mensaje: 'Error del servidor',
+            })
+        }
+    }
+
+    //Crear uno
+    @Post()
+    async crearUno(
+        @Body() parametrosCuerpo
+    ) {
+        try {
+            //Validacion del create DTO
+            const respuesta = await this._usuarioService.crearUno(parametrosCuerpo);
+            return respuesta;
+
+        }catch (e) {
+            console.error(e);
+            throw new BadRequestException({
+                mensaje: 'Error validando datos'
+            })
+        }
+
+    }
+
+    //Ver uno
+    @Get(':id')
+    async verUno(
+        @Param() parametrosRuta
+    ){
+        let respuesta;
+        try {
+            respuesta = await this._usuarioService.buscarUno(Number(parametrosRuta.id));
+
+        }catch (e) {
+            console.error(e);
+            throw new InternalServerErrorException({
+                mensaje: 'Error del servidor',
+            })
+        }
+        if (respuesta)
+            return respuesta;
+        else
+        {
+            throw new NotFoundException({
+                mensaje: 'No existen registros'
+            })
+        }
+    }
+
     //Editar Uno
     @Put(':id')
     editarUno(
@@ -59,6 +106,7 @@ export class UsuarioController {
         this.arregloUsuarios[indice].nombre = parametrosCuerpo.nombre;
         return this.arregloUsuarios[indice];
     }
+
     //Eliminar uno
     @Delete(':id')
     eliminarUno(
