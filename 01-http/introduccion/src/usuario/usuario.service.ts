@@ -9,18 +9,26 @@ import {Repository} from "typeorm";
 export class UsuarioService {
     constructor( //inyeccion de dependencias
         @InjectRepository(UsuarioEntity)
-        private reposiorio: Repository<UsuarioEntity>
+        private repositorio: Repository<UsuarioEntity>
     ) {
     }
     crearUno(nuevoUsuario:UsuarioEntity){
-        return this.reposiorio.save(nuevoUsuario) //devuelve una promesa
+        return this.repositorio.save(nuevoUsuario) //devuelve una promesa
     }
 
     buscarTodos(){
-        return this.reposiorio.find() //promesa
+        return this.repositorio.find() //promesa
     }
 
     buscarUno(id: number){
-        return this.reposiorio.findOne(id) //promesa
+        return this.repositorio.findOne(id) //promesa
+    }
+
+    editarUno(usuarioEditado: UsuarioEntity){
+        return this.repositorio.save(usuarioEditado);
+    }
+
+    eliminarUno(id: number){
+        return this.repositorio.delete(id);
     }
 }
