@@ -10,6 +10,9 @@ import {
     Put
 } from '@nestjs/common';
 import {UsuarioService} from "./usuario.service";
+import {UsuarioCreateDto} from "./dto/usuario.create-dto";
+import {validate, ValidationError} from "class-validator";
+import {UsuarioUpdateDto} from "./dto/usuario.update-dto";
 
 @Controller('usuario')
 export class UsuarioController {
@@ -57,8 +60,25 @@ export class UsuarioController {
     ) {
         try {
             //Validacion del create DTO
-            const respuesta = await this._usuarioService.crearUno(parametrosCuerpo);
-            return respuesta;
+            const usuarioValido = new UsuarioCreateDto();
+            usuarioValido.nombre = parametrosCuerpo.nombre;
+            usuarioValido.apellido = parametrosCuerpo.apellido;
+            usuarioValido.cedula = parametrosCuerpo.cedula;
+            usuarioValido.sueldo = parametrosCuerpo.sueldo;
+            usuarioValido.fechaNacimiento = parametrosCuerpo.fechaNacimiento;
+            usuarioValido.fechaHoraNacimiento = parametrosCuerpo.fechaHoraNacimiento;
+
+            //validar propiedades
+
+                const  errores: ValidationError[] = await validate(usuarioValido);
+                if (errores.length > 0){
+                    console.log('Errores',errores);
+                    throw new BadRequestException('Error validando');
+                }else {
+                    const respuesta = await this._usuarioService.crearUno(parametrosCuerpo);
+                    console.log('Datos usuario nuevo: ',usuarioValido);
+                    return respuesta;
+                }
 
         }catch (e) {
             console.error(e);
@@ -103,9 +123,28 @@ export class UsuarioController {
         const usuarioEditado = parametrosCuerpo;
         usuarioEditado.id = id;
 
+        let errores: ValidationError[];
+        let respuesta;
         try {
-            const respuesta = await this._usuarioService.editarUno(usuarioEditado);
-            return respuesta;
+
+            //Validacion del create DTO
+            const usuarioUpdate = new UsuarioUpdateDto();
+            usuarioUpdate.nombre = usuarioEditado.nombre;
+            usuarioUpdate.apellido = usuarioEditado.apellido;
+            usuarioUpdate.sueldo = usuarioEditado.sueldo;
+            usuarioUpdate.fechaNacimiento = usuarioEditado.fechaNacimiento;
+            usuarioUpdate.fechaHoraNacimiento = usuarioEditado.fechaHoraNacimiento;
+
+            //validar propiedades
+
+                errores = await validate(usuarioUpdate);
+                if (errores.length > 0){
+                    console.log('Errores',errores);
+                }else {
+                    respuesta = await this._usuarioService.editarUno(usuarioEditado);
+                    console.log('Datos usuario actuallizar: ',usuarioUpdate);
+                    return respuesta;
+                }
 
         }catch (e) {
             console.error(e);
@@ -113,6 +152,12 @@ export class UsuarioController {
                 mensaje: 'Error del servidor',
             })
         }
+        if (!respuesta || errores.length > 0){
+            throw new NotFoundException({
+                mensaje: 'Error validando'
+            })
+        }
+
     }
 
     //Eliminar uno
