@@ -29,7 +29,7 @@ export class UsuarioEntity{
         type: 'varchar',
         nullable: true // puede ser nulo
     })
-    nombre: string
+    nombre?: string
 
     @Column({
         name: 'apellido',
