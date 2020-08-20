@@ -8,7 +8,11 @@ export class MascotaEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({
+        name: 'nombre', //nombre de la columna
+        type: 'varchar',
+        length: '60'
+    })
     nombre: string;
 
     @ManyToOne(
