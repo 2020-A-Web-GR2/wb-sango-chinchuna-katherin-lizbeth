@@ -247,6 +247,31 @@ export class UsuarioController {
         )
     }
 
+    @Get('vista/faq')
+    faq(
+        @Res() res
+    ){
+        res.render('usuario/faq')
+    }
+
+    @Get('vista/inicio')
+    inicio(
+        @Res() res
+    ){
+        res.render('usuario/inicio')
+    }
+
+    @Get('vista/login')
+    login(
+        @Res() res
+    ){
+        res.render('usuario/login')
+    }
+
+
+
+
+
 
 
     // XML <usuario><nombre>ADRIAN</nombre></usuario>
