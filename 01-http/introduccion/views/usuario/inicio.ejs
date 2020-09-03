@@ -4,5 +4,53 @@
 <h1>Inicio</h1>
 <%- include('../compartido/menu/menu-component')%>
 
+<!-- el = ayuda a mostrar los valores en pantalla, pueden o no ser de una variable-->
+<!-- para escribir codigo JS en un ejs solo usamos el %-->
+<p><%= "Hola" %> </p>
+<% const usuario = {nombre:"Katherin", apellido:"Sango", cedula:"1725856363"}%>
+<% const numero = 25 %>
+<% const mensaje = "Hola" %>
+<p><%= usuario.nombre %></p>
+<p><%= numero %></p>
+<p><%= mensaje %></p>
+
+<% const arregloNumeros = [1,2,3,4,5] %>
+<ul>
+    <% arregloNumeros.forEach( (objeto)=> {%>
+        <li><%= objeto %></li>
+    <% }) %>
+</ul>
+
+<!--Para movernos de una pagina a otra mediante un boton-->
+<a href="/usuario/vista/crear">
+    <button>Crear</button>
+</a>
+
+
+<table>
+    <!--  table row  -->
+    <tr>
+        <th>Nombre</th>  <!-- table header -->
+        <th>Apellido</th>
+        <th>Cedula</th>
+        <th>Acciones</th>
+    </tr>
+    <% arregloUsuarios.forEach( (objeto)=> {%>
+        <tr>
+            <td><%= objeto.nombre %></td> <!-- table detail -->
+            <td><%= objeto.apellido %></td>
+            <td><%= objeto.cedula %></td>
+            <td>
+                <button>Ver</button>
+                <button>Editar</button>
+                <button>Eliminar</button>
+            </td>
+        </tr>
+    <% }) %>
+
+</table>
+
+
+<h1> </h1>
 <button onclick=mensajeAlertar()> ALERTAR </button>
 <%- include('../compartido/funcionalidad-general/funcionalidad-general-component')%>
