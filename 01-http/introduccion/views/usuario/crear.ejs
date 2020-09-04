@@ -6,15 +6,24 @@
 <!-- todos los input debe tener un laber no se los puede separar
      todos los input deben tener un id
 -->
+<% if (error != undefined){%>
+    <p>MENSAJE DE ERROR: <%= error %></p>
+<% } %>
+
 <form action="/usuario/crearDesdeVista" method="POST">
-    <label for="nombreID">Nombre: </label>
-    <input id="nombreID" type="text" name="nombre">
+<!--  si existe un nombre entonces (no es undefined)  -->
+    <% const existeNombre = typeof nombre != undefined %>
+    <label for="nombreID">Nombre:</label>
+    <input id="nombreID" type="text" name="nombre" value="<%= existeNombre ? nombre : '' %>">
+<!--  si el existe nombre llenar con nombre caso contrario no llenar -->
     <br>
-    <label for="apellidoID">Apellido: </label>
-    <input id="apellidoID" type="text" name="apellido">
+    <% const existeApellido = typeof apellido !== 'undefined' %>
+    <label for="apellidoID">Apellido:</label>
+    <input id="apellidoID" type="text" name="apellido" value="<%= existeApellido ? apellido : '' %>">
     <br>
-    <label for="cedulaID">Cedula: </label>
-    <input id="cedulaID" type="text" name="cedula">
+    <% const existeCedula = typeof cedula !== 'undefined' %>
+    <label for="cedulaID">Cedula:</label>
+    <input id="cedulaID" type="text" name="cedula" value="<%= existeCedula ? cedula : '' %>">
     <br>
     <button type="submit">SUBMIT</button>
     <button type="reset">RESET</button>
