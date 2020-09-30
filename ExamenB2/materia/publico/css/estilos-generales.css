@@ -1,0 +1,7 @@
+td, th{
+    border: 1px solid #1d2124;
+}
+
+th{
+    background-color: skyblue;
+}

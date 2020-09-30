@@ -1,0 +1,19 @@
+<%- include('../compartido/estilos-generales/estilos-generales-component')%>
+
+<ul class="nav nav-pills justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" href="/login"> <h2>Login</h2> </a>
+        </li>
+</ul>
+
+<form action="/login" method="POST">
+    <label for="usuarioId"> <h5>Usuario: </h5></label>
+    <input id="usuarioId"
+           type="text"
+           name="usuario">
+    <label for="passwordId"><h5>Password: </h5></label>
+    <input id="passwordId"
+           type="password"
+           name="password">
+    <button type="submit" class="btn btn-primary">Logearse</button>
+</form>

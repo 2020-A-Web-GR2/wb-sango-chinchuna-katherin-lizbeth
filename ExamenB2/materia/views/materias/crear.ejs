@@ -1,0 +1,61 @@
+
+<%- include('../compartido/menu/menu')%>
+
+<%- include('../compartido/estilos-generales/estilos-generales-component')%>
+
+<% const existeMateria = typeof materia !== 'undefined'%>
+
+<% let existeCodigo = typeof codigo !== 'undefined' %>
+<% let existeNombre = typeof nombre !== 'undefined' %>
+<% let existeParalelo = typeof paralelo !== 'undefined' %>
+<% let existeHorario = typeof horario !== 'undefined' %>
+<% let existePeriodo = typeof periodo !== 'undefined' %>
+
+
+<h3> <%= existeMateria ? 'Editar' : 'Crear'%> materia</h3>
+
+<%if(existeMateria){%>
+    <% existeCodigo = true %>
+    <% existeNombre = true %>
+    <% existeParalelo = true %>
+    <% existeHorario = true %>
+    <% existePeriodo = true %>
+    <% codigo = materia.codigo %>
+    <% nombre = materia.nombre %>
+    <% paralelo = materia.paralelo%>
+    <% horario = materia.horario %>
+    <% periodo = materia.periodo %>
+<%}%>
+
+
+<% if (error !== undefined){%>
+    <p>MENSAJE DE ERROR: <%= error %></p>
+<% } %>
+
+<form action=" <%= existeMateria ? '/materia/editarDesdeVista/'+ materia.id : '/materia/crearDesdeVista'%>"
+      method="POST">
+
+    <label for="codigoID" class="col-sm-1">Código: </label>
+    <input id="codigoID" type="text" class="col-sm-3"
+    <% if(existeMateria){%>
+           disabled
+            <%}%>
+           name="codigo"
+           value="<%= existeCodigo ? codigo : '' %>">
+    <br>
+    <label for="nombreID" class="col-sm-1">Nombre: </label>
+    <input id="nombreID" class="col-sm-3" type="text" name="nombre" value="<%= existeNombre ? nombre : '' %>">
+    <br>
+    <label for="paraleloID" class="col-sm-1">Paralelo: </label>
+    <input id="paraleloID" class="col-sm-3" type="text" name="paralelo" value="<%= existeParalelo ? paralelo : '' %>">
+    <br>
+    <label for="horarioID" class="col-sm-1">Horario: </label>
+    <input id="horarioID" class="col-sm-3" type="text" name="horario" value="<%= existeHorario ? horario : '' %>">
+    <br>
+    <label for="periodoID" class="col-sm-1">Período: </label>
+    <input id="periodoID" class="col-sm-3" type="text" name="periodo" value="<%= existePeriodo ? periodo : '' %>">
+    <br>
+    <button type="submit" class="btn btn-primary">SUBMIT</button>
+    <button type="reset" class="btn btn-primary">RESET</button>
+</form>
+

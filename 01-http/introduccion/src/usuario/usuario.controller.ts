@@ -155,6 +155,7 @@ export class UsuarioController {
                 mensaje: 'Error del servidor',
             })
         }
+
         if (!respuesta || errores.length > 0){
             throw new NotFoundException({
                 mensaje: 'Error validando'

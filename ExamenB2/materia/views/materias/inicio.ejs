@@ -1,0 +1,64 @@
+<%- include('../compartido/estilos-generales/estilos-generales-component')%>
+
+<p><h1>Bienvenido <%= usuario %> </h1></p>
+
+<h3>Inicio</h3>
+
+<form action="/materia/vista/inicio" method="get">
+    <label for="busqueda"> <h5>Busqueda: </h5> </label>
+    <input id="busqueda" type="text" name="busqueda">
+    <button type="submit" class="btn btn-info">Buscar</button>
+</form>
+
+<div>
+    <a href="/materia/vista/crear">
+        <button class="btn btn-primary">Crear</button>
+    </a>
+    <p></p>
+</div>
+
+<% if(parametrosConsulta.error !== undefined){%>
+    <p> MENSAJE: <%= parametrosConsulta.mensaje%> </p>
+<%}%>
+
+<table class="table">
+    <thead class="thead-dark">
+    <tr>
+        <th scope="col">Código</th>
+        <th scope="col">Nombre</th>
+        <th scope="col">Paralelo</th>
+        <th scope="col">Horario</th>
+        <th scope="col">Período</th>
+        <th scope="col">Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <% arregloMaterias.forEach( (objeto)=> {%>
+        <tr>
+            <td><%= objeto.codigo %></td> <!-- table detail -->
+            <td><%= objeto.nombre %></td>
+            <td><%= objeto.paralelo %></td>
+            <td><%= objeto.horario %></td>
+            <td><%= objeto.periodo %></td>
+            <td>
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="/materia/vista/editar/<%= objeto.id%>">
+                        <button class="btn btn-success">Editar</button>
+                    </a>
+                    <form action="/materia/eliminarDesdeVista/<%= objeto.id %>"
+                          method="POST">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </div>
+
+
+            </td>
+        </tr>
+    <% }) %>
+
+    </tbody>
+</table>
+
+<a href="/logout">
+    <button class="btn btn-secondary">Logout</button>
+</a>
